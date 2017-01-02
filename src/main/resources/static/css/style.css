@@ -1,0 +1,284 @@
+
+* {
+	font: Tahoma;
+}
+
+html {
+	background-color:#33AAEE;
+	margin: 0;
+	padding: 0;
+	background-color:#33AAEE;
+}
+body {
+	margin:0:
+	padding:0;
+	background-color:#33AAEE;
+	font-size: 100%;
+}
+.dropdown-menu {
+  font-size: 16px;
+  margin-top: 5px;
+  min-width: 105px;
+}
+.dropdown-menu li a {
+  color: #FF6611;
+  padding: 6px 20px;
+  font-weight: 300;
+}
+
+.dropdown-menu2 {
+  font-size: 16px;
+  margin-top: 5px;
+  min-width: 105px;
+  display: none;
+  position: relative;
+}
+.dropdown-menu2 li a {
+  color: #FF6611;
+  padding: 6px 20px;
+  font-weight: 300;
+}
+
+.dropdown-menu3 {
+  font-size: 16px;
+  margin-top: 5px;
+  min-width: 105px;
+  display: none;
+  position: relative;
+}
+.dropdown-menu3 li a {
+  color: #FF6611;
+  padding: 6px 20px;
+  font-weight: 300;
+}
+footer {
+	padding: 25px;
+	background-color: #33AAEE;
+}
+footer div h5 {
+	font-weight: 700;
+}
+
+
+footer nav {
+	display: flex;
+	justify-content: space-around;
+}
+footer nav .button {
+	background-color:#CCDDCC;
+	padding: 10px 30px;
+	font-size: 17px;
+	border-radius: 10px;
+	border: 1px solid orange;
+	text-shadow: 1px #33AAEE;
+	color:#FF6611;
+	font-weight: 700;
+}
+
+footer nav .button a {
+	color: #FF6611;
+}
+
+footer .row .col-sm-4 {
+	color: #FF6611
+	padding: 200px;
+	text-shadow: 1px #33AAEE;
+}
+
+
+
+header {
+	display: flex;
+  padding: 20px 0;
+  background-color:#33AAEE;
+}
+
+header .row .col-sm-4 {
+	display: flex;
+	justify-content: center;
+}
+
+header .row,
+footer .row {
+  display: flex;
+  align-items: center;
+  background-color: #33AAEE;
+  color: #FF6611;
+}
+
+header h1 {
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  color: #FF6611;
+  text-shadow: 2px 2px #CCDDCC;
+  background-color:#33AAEE;
+}
+
+header h1 a {
+	color: #FF6611;
+}
+
+header h1 a:hover {
+	text-decoration: none;
+	color: #FF6611;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-around;
+  color: #FF6611;
+  background-color:#33AAEE;
+
+}
+
+header nav .dropdown-toggle {
+	background-color:#CCDDCC;
+	padding: 20px 75px;
+	font-size: 20px;
+	border-radius: 10px;
+	border: 1px solid orange;
+	text-shadow: 1px #33AAEE;
+	color:orange;
+	display:flex;
+}
+
+header nav .dropdown-toggle2 {
+	background-color:#CCDDCC;
+	padding: 20px 75px;
+	font-size: 20px;
+	border-radius: 10px;
+	border: 1px solid orange;
+	text-shadow: 1px #33AAEE;
+	color:orange;
+	display:flex;
+}
+
+header nav .dropdown-toggle3 {
+	background-color:#CCDDCC;
+	padding: 20px 75px;
+	font-size: 20px;
+	border-radius: 10px;
+	border: 1px solid orange;
+	text-shadow: 1px #33AAEE;
+	color:orange;
+	display:flex;
+}
+
+header nav .dropdown-toggle a {
+	color: #FF6611;
+}
+
+header nav .dropdown-toggle2 a {
+	color: #FF6611;
+}
+
+header nav .dropdown-toggle3 a {
+	color: #FF6611;
+}
+
+section {
+	background-color: #33AAEE;
+}
+
+section .col-sm-3 {
+	display: inline-flex;
+	justify-content: space-around;
+	align-content: flex-start;
+	background-color:#33AAEE;
+	color:#FF6611;
+	font-weight: 1000;
+}
+
+section .col-sm-4 {
+	display: inline-flex;
+	justify-content: space-around;
+	align-content: flex-start;
+	background-color:#33AAEE;
+	color:#FF6611;
+	font-weight: 1000;
+}
+
+
+/*section .col-sm-9 {
+	background-color:#33AAEE;
+}
+*/
+section .col-sm-12 {
+	display: inline-flex;
+	justify-content: space-around;
+	align-content: flex-start;
+	background-color:#33AAEE;
+	color:#FF6611;
+	font-weight: 700;
+	text-shadow: 1px #33AAEE;
+	margin: 10px;
+}
+
+section div h2 {
+	font-weight: 900;
+	text-shadow: 2px 2px #CCDDCC;
+	
+}
+
+section div div h3 {
+	font-weight: 900;
+	text-shadow: 1px 1px #CCDDCC;
+}
+section div div input {
+	border: 2px solid orange;
+	resize: none;
+	color: orange;
+	overflow: hidden;
+	margin: 10px;
+	padding: 5px;
+
+}
+section .row table {
+	background-color:#33AAEE;
+	color: #FF6611;
+	text-shadow: 1px 1px #CCDDCC;
+	font-weight: 1000;
+}
+
+section .row table {
+	background-color:#33AAEE;
+	color: #FF6611;
+	text-shadow: 1px 1px #CCDDCC;
+	font-weight: 1000;
+}
+
+header p {
+  padding: 0 20px;
+  margin: 0;
+  background-color:#33AAEE;
+}
+
+.jumbotron {
+  display: flex;
+  align-items: center;
+  background-image: url(static/images/pt2.jpg);
+  background-size: cover;
+  color: #FF6611;
+  height: 600px;
+  text-shadow: 0.25px 0.25px 0.25px #CCDDCC;
+}
+
+.jumbotron .container .row h1 {
+	color:#FF6611;
+	font-weight: 700;
+	text-shadow: 2px 2px #CCDDCC;
+}
+.containter .col-sm-12 {
+	background-color: #33AAEE;
+	color: orange;
+} 
+
+#jumboImage {
+	margin-bottom: 0px;
+}
+
+/*button:active {
+    margin-right: 2px;
+
+} */
