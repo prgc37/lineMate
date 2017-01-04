@@ -1,5 +1,7 @@
 package org.launchcode.models.dao;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.launchcode.models.Food;
@@ -10,4 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FoodDao extends CrudRepository<Food, Integer>{
 
+	List<Food> findByType(String type);
+	
+	Food findByItem(String item);
 }
