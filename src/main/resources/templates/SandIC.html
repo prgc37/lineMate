@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+	<head th:replace="template :: dochead"></head>
+	<body>
+		<header th:replace="template :: headNavBar"></header>
+		
+		<div class="container">
+			<h2>Candy and Ice Cream</h2>
+			<form method="post" action="/order">
+				<div class="col-xs-12 col-sm-12" th:each="item : ${items}">
+					<div class="col-xs-12 col-sm-3"><h3 th:text="${item.item}">item</h3></div>
+				  	<div class="col-xs-12 col-sm-3"><h6 th:text="${item.description}">notes</h6></div>
+				  	<div class="col-xs-12 col-sm-3"><h3 th:text="${item.price}">price</h3></div>
+				  	<div class="col-xs-12 col-sm-3"><input th:value="${item.item}" name="ordered" type="checkbox"></input></div>
+				</div>
+				<div class="col-xs-12 col-sm-12">
+					<div class="col-xs-12 col-sm-4"></div>
+					<div class="col-xs-12 col-sm-4"><button type="submit">Add to Cart</button></div>
+					<div class="col-xs-12 col-sm-4"></div>
+				</div>
+			</form>
+			<form action="/checkout">
+				<div class="col-xs-12 col-sm-12">
+					<div class="col-xs-12 col-sm-4"></div>
+					<div class="col-xs-12 col-sm-4"><button type="submit">View Cart</button></div>
+					<div class="col-xs-12 col-sm-4"></div>
+				</div>
+			</form>
+		</div>
+		
+		
+		<div th:replace="template :: footNavBar"></div>
+	</body>
+</html>
