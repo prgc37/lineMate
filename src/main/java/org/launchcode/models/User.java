@@ -62,7 +62,7 @@ public class User extends AbstractEntity {
 		return username;
 	}
 	
-	private static String hashPassword(String password) {		
+	public static String hashPassword(String password) {		
 		return encoder.encode(password);
 	}
 	

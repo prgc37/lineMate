@@ -44,31 +44,52 @@ public class AuthenticationController extends AbstractController {
 			return "signup";
 		} 
 		else{
-			if(!User.isValidPassword(password)){
-				//ERROR MESSAGE
-				String password_error = "Please enter a valid password";
-				model.addAttribute("password_error", password_error);
+			if(!User.validateEmail(email)) {
+				String email_error = "Please enter a valid email address";
 				model.addAttribute("username", username);
+				model.addAttribute("email_error", email_error);
 				return "signup";
-			} 
+			}
 			else{
-				if(!password.equals(verify)) {
-					//ERROR MESSAGE
-					String verify_error = "Please make sure your password and password verification match";
-					model.addAttribute("verify_error", verify_error);
+				if(!User.validatePhone(phone)) {
+					String phone_error = "Please enter a valid 10 digit mobile phone number";
 					model.addAttribute("username", username);
-					model.addAttribute("pwhash", password);
+					model.addAttribute("email", email);
+					model.addAttribute("phone_error", phone_error);
 					return "signup";
 				}
-				else{		
-					User user = new User(username, password, email, phone);
-					userDao.save(user);
-					model.addAttribute("username", username);
-					model.addAttribute("pwhash", password);
-					loginHelper(request, user);
-					return "redirect:blog/newpost";
+				else{
+					if(!User.isValidPassword(password)) {
+						//ERROR MESSAGE
+						String password_error = "Please enter a valid password";
+						model.addAttribute("password_error", password_error);
+						model.addAttribute("username", username);
+						model.addAttribute("email", email);
+						model.addAttribute("phone", phone);
+						return "signup";
+					} 
+					else{
+						if(!password.equals(verify)) {
+							//ERROR MESSAGE
+							String verify_error = "Please make sure your password and password verification match";
+							model.addAttribute("verify_error", verify_error);
+							model.addAttribute("username", username);
+							model.addAttribute("email", email);
+							model.addAttribute("phone", phone);
+							model.addAttribute("pwhash", password);
+							return "signup";
+						}
+						else{		
+							User user = new User(username, password, email, phone);
+							userDao.save(user);
+							model.addAttribute("username", username);
+							model.addAttribute("pwhash", password);
+							loginHelper(request, user);
+							return "redirect:/";
+						}
+					}
 				}
-			}
+			}	
 		}
 //		
 //		if(User.isValidUsername(username) && User.isValidPassword(password) && password.equals(verify)){
@@ -108,14 +129,14 @@ public class AuthenticationController extends AbstractController {
 			String error = "Please enter a valid username or create a new account";
 			model.addAttribute("error", error);
 			return "login";
-		} else if(!user.isMatchingPassword(password)){
+		} else if(!user.getPwHash().equals(User.hashPassword(password))){
 			String error = "Please enter a valid password for the selected user";
 			model.addAttribute("error", error);
 			model.addAttribute("username", username);
 			return "login";
 		} else
 			loginHelper(request, user);
-			return "redirect:blog/newpost";
+			return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

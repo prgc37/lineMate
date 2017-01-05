@@ -36,12 +36,12 @@ public class HomeController extends AbstractController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String homeForm() {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/home", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String home(HttpServletRequest request, Model model) {
 		
 		//***TODO*** Implement home

@@ -9,23 +9,37 @@
 			<form method="post" action="/signup">
 			    <table>
 			        <tr>
-			            <td><label for="username">Username</label></td>
+			            <td><label for="username">Username	</label></td>
 			            <td class="form-group">
 			                <input class="form-control" name="username" placeholder="Username" type="text" th:value="${username}" autofocus="true"></input>
 			                <span class="error" th:text="${username_error}"></span>
 			            </td>
 			        </tr>
 			        <tr>
-			            <td><label for="password">Password</label></td>
+			            <td><label for="email">Email</label></td>
+			            <td class="form-group">
+			                <input class="form-control" name="email" placeholder="Email" type="text"></input>
+			                <span class="error" th:text="${email_error}">TEST</span>
+			            </td>
+			        </tr>
+			        <tr>
+			            <td><label for="phone">Mobile</label></td>
+			            <td class="form-group">
+			                <input class="form-control" name="phone" placeholder="Mobile Number" type="text"></input>
+			                <span class="error" th:text="${phone_error}">TEST</span>
+			            </td>
+			        </tr>   
+			        <tr>
+			            <td><label for="password">Password	</label></td>
 			            <td class="form-group">
 			                <input class="form-control" name="password" placeholder="Password" type="password"></input>
 			                <span class="error" th:text="${password_error}">TEST</span>
 			            </td>
 			        </tr>
 			        <tr>
-			            <td><label for="verify">Verify Password</label></td>
+			            <td><label for="verify">Verify</label></td>
 			            <td class="form-group">
-			                <input name="verify" type="password"></input>
+			                <input class="form-control" name="verify" placeholder="Verify Password" type="password"></input>
 			                <span class="error" th:text="${verify_error}"></span>
 			            </td>
 			        </tr>
