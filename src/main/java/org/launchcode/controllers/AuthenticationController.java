@@ -85,7 +85,7 @@ public class AuthenticationController extends AbstractController {
 							model.addAttribute("username", username);
 							model.addAttribute("pwhash", password);
 							loginHelper(request, user);
-							return "redirect:/";
+							return "redirect:/index";
 						}
 					}
 				}
@@ -129,14 +129,18 @@ public class AuthenticationController extends AbstractController {
 			String error = "Please enter a valid username or create a new account";
 			model.addAttribute("error", error);
 			return "login";
-		} else if(!user.getPwHash().equals(User.hashPassword(password))){
+		} 
+		else{ 
+			if(!user.isMatchingPassword(password)){
 			String error = "Please enter a valid password for the selected user";
 			model.addAttribute("error", error);
 			model.addAttribute("username", username);
 			return "login";
-		} else
+			} 
+			else
 			loginHelper(request, user);
-			return "redirect:/";
+			return "redirect:/index";
+		}
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

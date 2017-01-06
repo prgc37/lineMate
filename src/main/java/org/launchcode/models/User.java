@@ -1,7 +1,6 @@
 package org.launchcode.models;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +22,7 @@ public class User extends AbstractEntity {
 	private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	private String email;
 	private String mobileNumber; 
-	private HashMap<Integer, Order> items;
+	private List<Order> orderHistory;
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
 		    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	public static final Pattern phoneValRegex = Pattern.compile("^[1-9][0-9]{9}");
@@ -93,6 +92,16 @@ public class User extends AbstractEntity {
 		this.mobileNumber = newNumber;
 	}
 	
+	@OneToMany
+    @JoinColumn(name = "customer_uid")
+    public List<Order> getOrderHistory() {
+        return orderHistory;
+    }
+	
+	public void setOrderHistory(List<Order> orderHistory) {
+		this.orderHistory = orderHistory;
+	}
+	
 	// given password is correct for the user (instance, non-static)
 	public boolean isMatchingPassword(String password) {
 		return encoder.matches(password, pwHash);
@@ -128,14 +137,6 @@ public class User extends AbstractEntity {
 //		((Object) orders).add(order);
 //	}
 
-	@OneToMany
-    @JoinColumn(name = "customer_uid")
-    public Map<Integer, Order> getItems() {
-        return items;
-    }
-	
-	public void setItems(HashMap<Integer, Order> items) {
-		this.items = items;
-	}
+
 	
 }
