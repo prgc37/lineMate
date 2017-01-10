@@ -112,6 +112,19 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public String order(HttpServletRequest request, Model model) {
 		//***TODO*** Implement Order
+		String howManyString = request.getParameter("howMany");
+		int howMany = Integer.parseInt(howManyString);
+		float orderSubTotal = 0;
+		int numberOfItems = 0;
+		for(String item : orderList) {
+			Food checkedItem = foodDao.findByItem(item);
+			float itemTotal = checkedItem.getPrice() * howMany;
+			numberOfItems += howMany;
+			orderSubTotal += itemTotal;
+		}
+		model.addAttribute("items", orderList);
+		model.addAttribute("total", orderSubTotal);
+		model.addAttribute("numberOfItems", numberOfItems);
 		
 		return "order";
 	}
