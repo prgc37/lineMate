@@ -14,5 +14,7 @@ public interface FoodDao extends CrudRepository<Food, Integer>{
 
 	List<Food> findByType(String type);
 	
+	List<Food> findAll();
+	
 	Food findByItem(String item);
 }

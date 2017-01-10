@@ -1,5 +1,7 @@
 package org.launchcode.controllers;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.launchcode.models.User;
@@ -14,6 +16,8 @@ public abstract class AbstractController {
 	
 	@Autowired
 	protected OrderDao orderDao;
+	
+	public ArrayList<String> orderList;
 
     public static final String userSessionKey = "user_id";
 
@@ -25,6 +29,11 @@ public abstract class AbstractController {
     
     protected void setUserInSession(HttpSession session, User user) {
     	session.setAttribute(userSessionKey, user.getUid());
+    }
+    
+    protected void setOrderListInSession(HttpSession session) {
+    	ArrayList<String> orderList = new ArrayList<String>();
+    	session.setAttribute("orderList", orderList);
     }
 	
 }

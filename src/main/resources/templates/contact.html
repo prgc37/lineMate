@@ -4,7 +4,28 @@
 	<body>
 		<header th:replace="template :: headNavBar"></header>
 		
-		
+		<div class="container">
+			<h1>Contact Us</h1>
+			<form method="post" action="/contact">
+				<table>
+					<tr>
+						<td><label for="email">Email</label></td>
+						<td class="form-group">
+							<input class="form-control" size="35" name="email" placeholder="Email" type="text"></input>
+							<span class="error" th:text="${email_error}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="message">Message</label></td>
+						<td class="form-group">
+							<textarea class="form-control" rows="25" cols="50" name="message" placeholder="Tell us what's on your mind!"></textarea>
+							<span class="error" th:text="${message_error}"></span>
+						</td>
+					</tr>
+				</table>
+				<button type="submit">Talk to Us!</button>
+			</form>
+		</div>
 		<div th:replace="template :: footNavBar"></div>
 	</body>
 </html>

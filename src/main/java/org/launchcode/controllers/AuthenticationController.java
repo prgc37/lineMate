@@ -152,5 +152,6 @@ public class AuthenticationController extends AbstractController {
 	public void loginHelper(HttpServletRequest request, User user){
 		HttpSession session = request.getSession();
 		setUserInSession(session, user);
+		setOrderListInSession(session);
 		}
 }

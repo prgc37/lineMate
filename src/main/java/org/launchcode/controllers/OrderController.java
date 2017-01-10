@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.launchcode.models.Food;
 import org.launchcode.models.dao.FoodDao;
@@ -17,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class OrderController extends AbstractController {
-
-	public ArrayList<String> orderList;
 	
 	@Autowired
 	private UserDao userDao;
@@ -34,6 +34,7 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/grill", method = RequestMethod.GET)
 	public String grillForm(Model model) {
 		List<Food> items = foodDao.findByType("Grill");
+//		System.out.println(items.toString());
 		model.addAttribute("items", items);
 		return "grill";
 	}
@@ -96,7 +97,9 @@ public class OrderController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
-	public String orderForm(Model model) {
+	public String orderForm(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		ArrayList<String> orderList = (ArrayList<String>) session.getAttribute("orderList");
 		List<Food> items = new ArrayList<Food>();
 		for(String item : orderList) {
 			Food listItem = foodDao.findByItem(item);
@@ -108,7 +111,6 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public String order(HttpServletRequest request, Model model) {
-		
 		//***TODO*** Implement Order
 		
 		return "order";
