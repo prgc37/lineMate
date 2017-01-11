@@ -29,12 +29,16 @@ public class OrderController extends AbstractController {
 	@Autowired
 	private FoodDao foodDao;
 	
+	public static float orderSubTotal = 0;
+	public static int numberOfItems = 0;
+	public static double taxRate = 9.56;
+	
 	//** to access current session ** Session thisSession = request.getSession();
 	
 	@RequestMapping(value = "/grill", method = RequestMethod.GET)
 	public String grillForm(Model model) {
 		List<Food> items = foodDao.findByType("Grill");
-//		System.out.println(items.toString());
+		System.out.println(items.toString());
 		model.addAttribute("items", items);
 		return "grill";
 	}
@@ -113,9 +117,14 @@ public class OrderController extends AbstractController {
 	public String order(HttpServletRequest request, Model model) {
 		//***TODO*** Implement Order
 		String howManyString = request.getParameter("howMany");
-		int howMany = Integer.parseInt(howManyString);
-		float orderSubTotal = 0;
-		int numberOfItems = 0;
+		int howMany = 1;
+		try {
+			howMany = Integer.parseInt(howManyString);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			
+		}
+		
 		for(String item : orderList) {
 			Food checkedItem = foodDao.findByItem(item);
 			float itemTotal = checkedItem.getPrice() * howMany;
@@ -130,7 +139,23 @@ public class OrderController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/checkout", method = RequestMethod.GET)
-	public String checkoutForm() {
+	public String checkoutForm(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		ArrayList<String> orderList = (ArrayList<String>) session.getAttribute("orderList");
+		List<Food> items = new ArrayList<Food>();
+		for(String item : orderList) {
+			Food listItem = foodDao.findByItem(item);
+			items.add(listItem);
+		}
+		double tax = taxRate * orderSubTotal;
+		double total = tax + orderSubTotal;
+		
+		model.addAttribute("numberOfItems", numberOfItems);
+		model.addAttribute("subtotal", orderSubTotal);
+		model.addAttribute("tax", tax);
+		model.addAttribute("total", total);
+		model.addAttribute("items", items);	
+		
 		return "checkout";
 	}
 	

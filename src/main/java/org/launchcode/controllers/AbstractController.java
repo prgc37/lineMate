@@ -32,7 +32,7 @@ public abstract class AbstractController {
     }
     
     protected void setOrderListInSession(HttpSession session) {
-    	ArrayList<String> orderList = new ArrayList<String>();
+    	orderList = new ArrayList<String>();
     	session.setAttribute("orderList", orderList);
     }
 	
