@@ -36,4 +36,9 @@ public abstract class AbstractController {
     	session.setAttribute("orderList", orderList);
     }
 	
+    @SuppressWarnings("unchecked")
+    protected ArrayList<String> getOrderListFromSession(HttpSession session) {
+    	return (ArrayList<String>) session.getAttribute("orderList");
+    }
+    
 }

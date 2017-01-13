@@ -38,13 +38,13 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/grill", method = RequestMethod.GET)
 	public String grillForm(Model model) {
 		List<Food> items = foodDao.findByType("Grill");
-		System.out.println(items.toString());
 		model.addAttribute("items", items);
 		return "grill";
 	}
 	
 	@RequestMapping(value = "/grill", method = RequestMethod.POST)
 	public String grill(HttpServletRequest request, Model model) {
+		orderList = getOrderListFromSession(request.getSession());
 		String[] grillOrder = request.getParameterValues("ordered");
 		for(String item: grillOrder) {
 			orderList.add(item);
@@ -61,6 +61,7 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/SandIC", method = RequestMethod.POST)
 	public String SandIC(HttpServletRequest request, Model model) {
+		orderList = getOrderListFromSession(request.getSession());
 		String[] SandICOrder = request.getParameterValues("ordered");
 		for(String item: SandICOrder) {
 			orderList.add(item);
@@ -77,6 +78,7 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/drinks", method = RequestMethod.POST)
 	public String drinks(HttpServletRequest request, Model model) {
+		orderList = getOrderListFromSession(request.getSession());
 		String[] drinksOrder = request.getParameterValues("ordered");
 		for(String item : drinksOrder) {
 			orderList.add(item);
@@ -93,6 +95,7 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/SandW", method = RequestMethod.POST)
 	public String SandW(HttpServletRequest request, Model model) {
+		orderList = getOrderListFromSession(request.getSession());
 		String[] SandWOrder = request.getParameterValues("ordered");
 		for(String item : SandWOrder) {
 			orderList.add(item);
@@ -102,8 +105,7 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
 	public String orderForm(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		ArrayList<String> orderList = (ArrayList<String>) session.getAttribute("orderList");
+		orderList = getOrderListFromSession(request.getSession());
 		List<Food> items = new ArrayList<Food>();
 		for(String item : orderList) {
 			Food listItem = foodDao.findByItem(item);
@@ -115,7 +117,7 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public String order(HttpServletRequest request, Model model) {
-		//***TODO*** Implement Order
+		orderList = getOrderListFromSession(request.getSession());
 		String howManyString = request.getParameter("howMany");
 		int howMany = 1;
 		try {
@@ -124,7 +126,7 @@ public class OrderController extends AbstractController {
 			e.printStackTrace();
 			
 		}
-		
+	
 		for(String item : orderList) {
 			Food checkedItem = foodDao.findByItem(item);
 			float itemTotal = checkedItem.getPrice() * howMany;
@@ -140,8 +142,7 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/checkout", method = RequestMethod.GET)
 	public String checkoutForm(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		ArrayList<String> orderList = (ArrayList<String>) session.getAttribute("orderList");
+		orderList = getOrderListFromSession(request.getSession());
 		List<Food> items = new ArrayList<Food>();
 		for(String item : orderList) {
 			Food listItem = foodDao.findByItem(item);
@@ -166,6 +167,8 @@ public class OrderController extends AbstractController {
 		
 		return "checkout";
 	}
+	
+	
 	
 	
 }
