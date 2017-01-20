@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Items")
 public class Order extends AbstractEntity {
 
-	private float total;
+	private double total;
 	private User customer;
 	private Date created;
 	private HashMap<String, Food> listOfItems;
@@ -24,7 +24,7 @@ public class Order extends AbstractEntity {
 
 	public Order() {}
 
-	public Order(User customer, int numberOfItems, HashMap<String, Food> listOfItems, String notes, float total){
+	public Order(User customer, int numberOfItems, HashMap<String, Food> listOfItems, String notes, double total){
 	
 	super();
 	
@@ -81,13 +81,13 @@ public class Order extends AbstractEntity {
 	
 	@NotNull
 	@Column(name = "total")
-	public float getTotal() {
+	public double getTotal() {
 		return this.total;
 	}
 	
 	
 	@SuppressWarnings("unused")
-	private void setTotal(float total) {
+	private void setTotal(double total) {
 		this.total = total;
 	}
 	@NotNull

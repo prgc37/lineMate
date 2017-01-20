@@ -22,7 +22,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 
     	// ***TODO*** CHANGE url from blogz TO linemate
-        List<String> authPages = Arrays.asList("/order", "/checkout", "/index");
+        List<String> authPages = Arrays.asList("/grill", "/drinks", "/SandW", "/SandIC", "/checkout", "/order", "/index");
 
         // Require sign-in for auth pages
         if ( authPages.contains(request.getRequestURI()) ) {

@@ -8,6 +8,7 @@ import org.launchcode.models.User;
 import org.launchcode.models.dao.OrderDao;
 import org.launchcode.models.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.launchcode.models.Food;
 
 public abstract class AbstractController {
 
@@ -17,7 +18,7 @@ public abstract class AbstractController {
 	@Autowired
 	protected OrderDao orderDao;
 	
-	public ArrayList<String> orderList;
+	public ArrayList<Food> orderList;
 
     public static final String userSessionKey = "user_id";
 
@@ -32,13 +33,13 @@ public abstract class AbstractController {
     }
     
     protected void setOrderListInSession(HttpSession session) {
-    	orderList = new ArrayList<String>();
+    	orderList = new ArrayList<Food>();
     	session.setAttribute("orderList", orderList);
     }
 	
     @SuppressWarnings("unchecked")
-    protected ArrayList<String> getOrderListFromSession(HttpSession session) {
-    	return (ArrayList<String>) session.getAttribute("orderList");
+    protected ArrayList<Food> getOrderListFromSession(HttpSession session) {
+    	return (ArrayList<Food>) session.getAttribute("orderList");
     }
     
 }

@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.launchcode.models.Food;
 import org.launchcode.models.dao.FoodDao;
-import org.launchcode.models.dao.OrderDao;
-import org.launchcode.models.dao.UserDao;
+//import org.launchcode.models.dao.OrderDao;
+//import org.launchcode.models.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,16 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class OrderController extends AbstractController {
 	
-	@Autowired
-	private UserDao userDao;
-	
-	@Autowired
-	private OrderDao orderDao;
-	
+//	@Autowired
+//	private UserDao userDao;
+//	
+//	@Autowired
+//	private OrderDao orderDao;
+//	
 	@Autowired
 	private FoodDao foodDao;
 	
-	public static float orderSubTotal = 0;
+	public static double orderSubTotal = 0.00;
 	public static int numberOfItems = 0;
 	public static double taxRate = 9.56;
 	
@@ -47,9 +45,13 @@ public class OrderController extends AbstractController {
 		orderList = getOrderListFromSession(request.getSession());
 		String[] grillOrder = request.getParameterValues("ordered");
 		for(String item: grillOrder) {
-			orderList.add(item);
+			Food checkedItem = foodDao.findByItem(item);
+			orderList.add(checkedItem);
 		}
-		return "redirect:order";
+		model.addAttribute("items", orderList);
+		model.addAttribute("total", orderSubTotal);
+		model.addAttribute("numberOfItems", numberOfItems);
+		return "order";
 	}
 	
 	@RequestMapping(value = "/SandIC", method = RequestMethod.GET)
@@ -64,9 +66,13 @@ public class OrderController extends AbstractController {
 		orderList = getOrderListFromSession(request.getSession());
 		String[] SandICOrder = request.getParameterValues("ordered");
 		for(String item: SandICOrder) {
-			orderList.add(item);
+			Food checkedItem = foodDao.findByItem(item);
+			orderList.add(checkedItem);
 		}
-		return "redirect:order";
+		model.addAttribute("items", orderList);
+		model.addAttribute("total", orderSubTotal);
+		model.addAttribute("numberOfItems", numberOfItems);
+		return "order";
 	}
 	
 	@RequestMapping(value = "/drinks", method = RequestMethod.GET)
@@ -81,9 +87,13 @@ public class OrderController extends AbstractController {
 		orderList = getOrderListFromSession(request.getSession());
 		String[] drinksOrder = request.getParameterValues("ordered");
 		for(String item : drinksOrder) {
-			orderList.add(item);
+			Food checkedItem = foodDao.findByItem(item);
+			orderList.add(checkedItem);
 		}
-		return "redirect:order";
+		model.addAttribute("items", orderList);
+		model.addAttribute("total", orderSubTotal);
+		model.addAttribute("numberOfItems", numberOfItems);
+		return "order";
 	}
 	
 	@RequestMapping(value = "/SandW", method = RequestMethod.GET)
@@ -98,28 +108,52 @@ public class OrderController extends AbstractController {
 		orderList = getOrderListFromSession(request.getSession());
 		String[] SandWOrder = request.getParameterValues("ordered");
 		for(String item : SandWOrder) {
-			orderList.add(item);
+			Food checkedItem = foodDao.findByItem(item);
+			orderList.add(checkedItem);
 		}
-		return "redirect:order";
+		model.addAttribute("items", orderList);
+		model.addAttribute("total", orderSubTotal);
+		model.addAttribute("numberOfItems", numberOfItems);
+		return "order";
 	}
 	
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
 	public String orderForm(HttpServletRequest request, Model model) {
 		orderList = getOrderListFromSession(request.getSession());
-		List<Food> items = new ArrayList<Food>();
-		for(String item : orderList) {
-			Food listItem = foodDao.findByItem(item);
-			items.add(listItem);
+//		double[] orderCostAddends = new double[orderList.size()];
+		for(Food item : orderList) {
+			String howManyString = request.getParameter("howMany");
+			if(howManyString != null) {
+				howManyString.trim();
+			}
+			int howMany = 1;		
+			try {
+				howMany = Integer.parseInt(howManyString);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				
+			}
+			double itemTotal = item.getPrice() * howMany;
+			numberOfItems += howMany;
+			orderSubTotal += itemTotal;
 		}
-		model.addAttribute("items", items);
+		model.addAttribute("items", orderList);
+		model.addAttribute("numberOfItems", numberOfItems);
+		model.addAttribute("subTotal", orderSubTotal);
 		return "order";
 	}
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public String order(HttpServletRequest request, Model model) {
+		
+		// ***TODO*** CREATE AND PASS DATA TO "checkout"
+		
 		orderList = getOrderListFromSession(request.getSession());
 		String howManyString = request.getParameter("howMany");
-		int howMany = 1;
+		if(howManyString != null) {
+			howManyString.trim();
+		}
+		int howMany = 1;		
 		try {
 			howMany = Integer.parseInt(howManyString);
 		} catch (NumberFormatException e) {
@@ -127,27 +161,27 @@ public class OrderController extends AbstractController {
 			
 		}
 	
-		for(String item : orderList) {
-			Food checkedItem = foodDao.findByItem(item);
-			float itemTotal = checkedItem.getPrice() * howMany;
-			numberOfItems += howMany;
-			orderSubTotal += itemTotal;
-		}
+//		for(String item : orderList) {
+//			Food checkedItem = foodDao.findByItem(item);
+//			double itemTotal = checkedItem.getPrice() * howMany;
+//			numberOfItems += howMany;
+//			orderSubTotal += itemTotal;
+//		}
 		model.addAttribute("items", orderList);
 		model.addAttribute("total", orderSubTotal);
 		model.addAttribute("numberOfItems", numberOfItems);
 		
-		return "order";
+		return "checkout";
 	}
 	
 	@RequestMapping(value = "/checkout", method = RequestMethod.GET)
 	public String checkoutForm(HttpServletRequest request, Model model) {
 		orderList = getOrderListFromSession(request.getSession());
 		List<Food> items = new ArrayList<Food>();
-		for(String item : orderList) {
-			Food listItem = foodDao.findByItem(item);
-			items.add(listItem);
-		}
+//		for(String item : orderList) {
+//			Food listItem = foodDao.findByItem(item);
+//			items.add(listItem);
+//		}
 		double tax = taxRate * orderSubTotal;
 		double total = tax + orderSubTotal;
 		
@@ -160,14 +194,14 @@ public class OrderController extends AbstractController {
 		return "checkout";
 	}
 	
-	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-	public String checkout(HttpServletRequest request, Model model) {
-		
-		//***TODO*** Implement checkout
-		
-		return "checkout";
-	}
-	
+//	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
+//	public String checkout(HttpServletRequest request, Model model) {
+//		
+//		//***TODO*** Implement checkout
+//		
+//		return "checkout";
+//	}
+//	
 	
 	
 	
