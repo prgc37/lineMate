@@ -2,7 +2,7 @@ package org.launchcode.controllers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 import javax.servlet.http.HttpSession;
 
@@ -21,8 +21,8 @@ public abstract class AbstractController {
 	protected OrderDao orderDao;
 	
 	public ArrayList<Food> orderList;
-	public static BigDecimal orderSubTotal = new BigDecimal(0.00);
-	public static int numberOfItems = 0;
+	public BigDecimal orderSubTotal = new BigDecimal(0.00);
+	public int numberOfItems = 0;
 	public double taxRate = 0.0956;
 
     public static final String userSessionKey = "user_id";

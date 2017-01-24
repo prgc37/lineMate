@@ -1,5 +1,7 @@
 package org.launchcode.controllers;
 
+import java.math.BigDecimal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -145,7 +147,9 @@ public class AuthenticationController extends AbstractController {
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request){
-        request.getSession().invalidate();
+		String username = request.getParameter("username");
+		User user = userDao.findByUsername(username);
+        logoutHelper(request, user);
 		return "redirect:/";
 	}
 	
@@ -157,4 +161,15 @@ public class AuthenticationController extends AbstractController {
 		initOrderSubTotalInSession(session);
 		initTaxRateInSession(session);
 		}
+	
+	public void logoutHelper(HttpServletRequest request, User user) {
+		HttpSession session = request.getSession();
+		BigDecimal zero = new BigDecimal(0.00);
+		orderList.clear();
+		setNumberOfItemsInSession(session, 0);
+		setOrderSubTotalInSession(session, zero);
+		session.invalidate();
+		
+		
+	}
 }

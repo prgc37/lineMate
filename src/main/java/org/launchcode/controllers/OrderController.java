@@ -3,7 +3,6 @@ package org.launchcode.controllers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +30,9 @@ public class OrderController extends AbstractController {
 	@Autowired
 	private FoodDao foodDao;
 	
+	String orderedEM = "Please select at least one item to proceed with your order";
+	String howManyEM = "Please enter the quantity of each item you'd like to order";
+	
 	//** to access current session ** Session thisSession = request.getSession();
 	
 	@RequestMapping(value = "/grill", method = RequestMethod.GET)
@@ -43,10 +45,18 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/grill", method = RequestMethod.POST)
 	public String grill(HttpServletRequest request, Model model) {
 		orderList = getOrderListFromSession(request.getSession());
+//		String orderedEM = "Please select at least one item to proceed with your order";
 		String[] grillOrder = request.getParameterValues("ordered");
-		for(String item: grillOrder) {
+		if(grillOrder != null) {
+			for(String item: grillOrder) {
 			Food checkedItem = foodDao.findByItem(item);
-			orderList.add(checkedItem);
+				if(!orderList.contains(checkedItem)) {
+					orderList.add(checkedItem);
+				}
+			}
+		} else {
+			model.addAttribute("orderedEM", orderedEM);
+			return "order";
 		}
 		model.addAttribute("items", orderList);
 		model.addAttribute("total", orderSubTotal);
@@ -64,10 +74,18 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/SandIC", method = RequestMethod.POST)
 	public String SandIC(HttpServletRequest request, Model model) {
 		orderList = getOrderListFromSession(request.getSession());
+//		String orderedEM = "Please select at least one item to proceed with your order";
 		String[] SandICOrder = request.getParameterValues("ordered");
-		for(String item: SandICOrder) {
+		if(SandICOrder != null) {
+			for(String item: SandICOrder) {
 			Food checkedItem = foodDao.findByItem(item);
-			orderList.add(checkedItem);
+				if(!orderList.contains(checkedItem)) {
+					orderList.add(checkedItem);
+				}
+			}
+		} else {
+			model.addAttribute("orderedEM", orderedEM);
+			return "order";
 		}
 		model.addAttribute("items", orderList);
 		model.addAttribute("total", orderSubTotal);
@@ -85,10 +103,18 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/drinks", method = RequestMethod.POST)
 	public String drinks(HttpServletRequest request, Model model) {
 		orderList = getOrderListFromSession(request.getSession());
+//		String orderedEM = "Please select at least one item to proceed with your order";
 		String[] drinksOrder = request.getParameterValues("ordered");
-		for(String item : drinksOrder) {
+		if(drinksOrder != null) {
+			for(String item: drinksOrder) {
 			Food checkedItem = foodDao.findByItem(item);
-			orderList.add(checkedItem);
+				if(!orderList.contains(checkedItem)) {
+					orderList.add(checkedItem);
+				}
+			}
+		} else {
+			model.addAttribute("orderedEM", orderedEM);
+			return "order";
 		}
 		model.addAttribute("items", orderList);
 		model.addAttribute("total", orderSubTotal);
@@ -106,10 +132,18 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/SandW", method = RequestMethod.POST)
 	public String SandW(HttpServletRequest request, Model model) {
 		orderList = getOrderListFromSession(request.getSession());
+//		String orderedEM = "Please select at least one item to proceed with your order";
 		String[] SandWOrder = request.getParameterValues("ordered");
-		for(String item : SandWOrder) {
+		if(SandWOrder != null) {
+			for(String item: SandWOrder) {
 			Food checkedItem = foodDao.findByItem(item);
-			orderList.add(checkedItem);
+				if(!orderList.contains(checkedItem)) {
+					orderList.add(checkedItem);
+				}
+			}
+		} else {
+			model.addAttribute("orderedEM", orderedEM);
+			return "order";
 		}
 		model.addAttribute("items", orderList);
 		model.addAttribute("total", orderSubTotal);
@@ -136,12 +170,18 @@ public class OrderController extends AbstractController {
 	public String order(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		orderList = getOrderListFromSession(session);
+//		String howManyEM = "Please enter the quantity you'd like to order";
 		for(Food item : orderList) {
 			String howManyString = request.getParameter("howMany");
 			String notes = request.getParameter("notes");
 			if(howManyString != null && howManyString != "") {
 				howManyString.trim();
-			} // ***TODO*** else returning error message ************
+				
+			} else {
+				model.addAttribute("howManyEM", howManyEM);
+				return "checkout";
+			}
+			
 			int howManyInt = Integer.parseInt(howManyString);		
 			BigDecimal howMany = new BigDecimal(howManyInt);
 						
@@ -197,9 +237,17 @@ public class OrderController extends AbstractController {
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
 	public String checkout(HttpServletRequest request, Model model) {
 		
-		//***TODO*** Implement checkout
+		//***TODO*** Implement orderSummary
 		
-		return "checkout";
+		return "orderSummary";
+	}
+	
+	@RequestMapping(value = "/orderSummary", method = RequestMethod.GET)
+	public String orderSummary(HttpServletRequest request, Model model) {
+		
+		//***TODO*** Implement orderSummary
+		
+		return "orderSummary";
 	}
 	
 	
