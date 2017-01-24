@@ -1,5 +1,6 @@
 package org.launchcode.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Items")
 public class Order extends AbstractEntity {
 
-	private double total;
+	private BigDecimal total;
 	private User customer;
 	private Date created;
 	private HashMap<String, Food> listOfItems;
@@ -24,7 +25,7 @@ public class Order extends AbstractEntity {
 
 	public Order() {}
 
-	public Order(User customer, int numberOfItems, HashMap<String, Food> listOfItems, String notes, double total){
+	public Order(User customer, int numberOfItems, HashMap<String, Food> listOfItems, String notes, BigDecimal total){
 	
 	super();
 	
@@ -81,13 +82,13 @@ public class Order extends AbstractEntity {
 	
 	@NotNull
 	@Column(name = "total")
-	public double getTotal() {
+	public BigDecimal getTotal() {
 		return this.total;
 	}
 	
 	
 	@SuppressWarnings("unused")
-	private void setTotal(double total) {
+	private void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 	@NotNull

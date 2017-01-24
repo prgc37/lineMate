@@ -1,9 +1,13 @@
 package org.launchcode.controllers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.launchcode.models.Food;
 import org.launchcode.models.dao.FoodDao;
@@ -26,10 +30,6 @@ public class OrderController extends AbstractController {
 //	
 	@Autowired
 	private FoodDao foodDao;
-	
-	public static double orderSubTotal = 0.00;
-	public static int numberOfItems = 0;
-	public static double taxRate = 9.56;
 	
 	//** to access current session ** Session thisSession = request.getSession();
 	
@@ -119,23 +119,12 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
 	public String orderForm(HttpServletRequest request, Model model) {
-		orderList = getOrderListFromSession(request.getSession());
-//		double[] orderCostAddends = new double[orderList.size()];
+		HttpSession session = request.getSession();
+		orderList = getOrderListFromSession(session);
 		for(Food item : orderList) {
-			String howManyString = request.getParameter("howMany");
-			if(howManyString != null) {
-				howManyString.trim();
-			}
-			int howMany = 1;		
-			try {
-				howMany = Integer.parseInt(howManyString);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				
-			}
-			double itemTotal = item.getPrice() * howMany;
-			numberOfItems += howMany;
-			orderSubTotal += itemTotal;
+			BigDecimal itemTotal = item.getPrice();
+			numberOfItems += 1; // ***TODO*** add javascript, jquery, etc to display dynamic numberOfItems and orderSubTotal
+			orderSubTotal = orderSubTotal.add(itemTotal);
 		}
 		model.addAttribute("items", orderList);
 		model.addAttribute("numberOfItems", numberOfItems);
@@ -145,31 +134,40 @@ public class OrderController extends AbstractController {
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public String order(HttpServletRequest request, Model model) {
-		
-		// ***TODO*** CREATE AND PASS DATA TO "checkout"
-		
-		orderList = getOrderListFromSession(request.getSession());
-		String howManyString = request.getParameter("howMany");
-		if(howManyString != null) {
-			howManyString.trim();
-		}
-		int howMany = 1;		
-		try {
-			howMany = Integer.parseInt(howManyString);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
+		HttpSession session = request.getSession();
+		orderList = getOrderListFromSession(session);
+		for(Food item : orderList) {
+			String howManyString = request.getParameter("howMany");
+			String notes = request.getParameter("notes");
+			if(howManyString != null && howManyString != "") {
+				howManyString.trim();
+			} // ***TODO*** else returning error message ************
+			int howManyInt = Integer.parseInt(howManyString);		
+			BigDecimal howMany = new BigDecimal(howManyInt);
+						
+//			try {
+//				howManyInt = Integer.parseInt(howManyString); 
+//			} catch (NumberFormatException e) {
+//				e.printStackTrace();
+//			}
+			
+			BigDecimal itemTotal = item.getPrice().multiply(howMany);
+			numberOfItems += howManyInt;
+			orderSubTotal = orderSubTotal.add(itemTotal);
+			model.addAttribute("quantity", howMany);
+			model.addAttribute("notes", notes);
 			
 		}
-	
-//		for(String item : orderList) {
-//			Food checkedItem = foodDao.findByItem(item);
-//			double itemTotal = checkedItem.getPrice() * howMany;
-//			numberOfItems += howMany;
-//			orderSubTotal += itemTotal;
-//		}
+		BigDecimal taxRateBD = BigDecimal.valueOf(taxRate);
+		BigDecimal tax = orderSubTotal.multiply(taxRateBD);
+		tax = tax.setScale(2, RoundingMode.CEILING);
+		BigDecimal total = orderSubTotal.add(tax);
+		
 		model.addAttribute("items", orderList);
-		model.addAttribute("total", orderSubTotal);
+		model.addAttribute("subTotal", orderSubTotal);
+		model.addAttribute("tax", tax);
 		model.addAttribute("numberOfItems", numberOfItems);
+		model.addAttribute("total", total);
 		
 		return "checkout";
 	}
@@ -182,8 +180,10 @@ public class OrderController extends AbstractController {
 //			Food listItem = foodDao.findByItem(item);
 //			items.add(listItem);
 //		}
-		double tax = taxRate * orderSubTotal;
-		double total = tax + orderSubTotal;
+		BigDecimal taxRateBD = BigDecimal.valueOf(taxRate);
+		BigDecimal tax = orderSubTotal.multiply(taxRateBD);
+		tax = tax.setScale(2, RoundingMode.CEILING);
+		BigDecimal total = orderSubTotal.add(tax);
 		
 		model.addAttribute("numberOfItems", numberOfItems);
 		model.addAttribute("subtotal", orderSubTotal);
@@ -194,14 +194,14 @@ public class OrderController extends AbstractController {
 		return "checkout";
 	}
 	
-//	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
-//	public String checkout(HttpServletRequest request, Model model) {
-//		
-//		//***TODO*** Implement checkout
-//		
-//		return "checkout";
-//	}
-//	
+	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
+	public String checkout(HttpServletRequest request, Model model) {
+		
+		//***TODO*** Implement checkout
+		
+		return "checkout";
+	}
+	
 	
 	
 	

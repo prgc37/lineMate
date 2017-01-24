@@ -10,8 +10,8 @@
 	        <form method="post" action="/order">
 				<div class="col-xs-12 col-sm-12" th:each="item : ${items}">
 						<div class="col-xs-12 col-sm-3"><h3 th:text="${item.item}">item</h3></div>
-					  	<div class="col-xs-12 col-sm-3"><input type="text" name="notes" placeholder="notes">notes</input></div>
-					  	<div class="col-xs-12 col-sm-3"><input id="count" type="number" min="1" max="50" name="howMany"></input></div>
+					  	<div class="col-xs-12 col-sm-3"><input type="text" name="notes" placeholder="Special Requests?"></input></div>
+					  	<div class="col-xs-12 col-sm-3"><input id="count" type="number" min="1" max="50" th:name="howMany"></input></div>
 					  	<div class="col-xs-12 col-sm-3"><h3 th:text="${item.price}">price</h3></div>
 				</div>
 				<div class="col-xs-12 col-sm-12">

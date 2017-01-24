@@ -1,6 +1,8 @@
 package org.launchcode.controllers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,9 @@ public abstract class AbstractController {
 	protected OrderDao orderDao;
 	
 	public ArrayList<Food> orderList;
+	public static BigDecimal orderSubTotal = new BigDecimal(0.00);
+	public static int numberOfItems = 0;
+	public double taxRate = 0.0956;
 
     public static final String userSessionKey = "user_id";
 
@@ -32,7 +37,7 @@ public abstract class AbstractController {
     	session.setAttribute(userSessionKey, user.getUid());
     }
     
-    protected void setOrderListInSession(HttpSession session) {
+    protected void initOrderListInSession(HttpSession session) {
     	orderList = new ArrayList<Food>();
     	session.setAttribute("orderList", orderList);
     }
@@ -40,6 +45,47 @@ public abstract class AbstractController {
     @SuppressWarnings("unchecked")
     protected ArrayList<Food> getOrderListFromSession(HttpSession session) {
     	return (ArrayList<Food>) session.getAttribute("orderList");
+    }
+    
+    protected void initOrderSubTotalInSession(HttpSession session) {
+    	session.setAttribute("orderSubTotal", orderSubTotal);
+    }
+    
+    protected BigDecimal getOrderSubTotalFromSession(HttpSession session) {
+    	return (BigDecimal) session.getAttribute("orderSubTotal");
+    }
+    
+    protected void setOrderSubTotalInSession(HttpSession session, BigDecimal orderSubTotal) {
+    	session.setAttribute("orderSubTotal", orderSubTotal);
+    }
+    
+    protected void resetOrderSubTotalInSession(HttpSession session) {
+    	session.setAttribute("orderSubTotal", 0.00);
+    }
+    
+    protected void initNumberOfItemsInSession(HttpSession session) {
+    	session.setAttribute("numberOfItems", numberOfItems);
+    }
+    
+    protected int getNumberOfItemsFromSession(HttpSession session) {
+    	return (int) session.getAttribute("numberOfItems");
+    }
+    
+    protected void setNumberOfItemsInSession(HttpSession session, int numberOfItems) {
+    	session.setAttribute("numberOfItems", numberOfItems);
+    }
+    
+    protected void resetNumberOfItemsInSession(HttpSession session) {
+    	session.setAttribute("numberOfItems", 0);
+    }
+    
+    
+    protected double getTaxRateFromSession(HttpSession session) {
+    	return (double) session.getAttribute("taxRate");
+    }
+    
+    protected void initTaxRateInSession(HttpSession session) {
+    	session.setAttribute("taxRate", taxRate);
     }
     
 }

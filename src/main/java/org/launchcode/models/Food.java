@@ -1,5 +1,7 @@
 package org.launchcode.models;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,12 +13,12 @@ public class Food extends AbstractEntity {
   
 	public String item;
 	public String description;
-	public double price;
+	public BigDecimal price;
 	public String foodType;
 //	private final Image image; https://docs.oracle.com/javase/tutorial/2d/images/
 	
 	
-	public Food(String item, String description, double price, String type) {
+	public Food(String item, String description, BigDecimal price, String type) {
 		
 		super();
 		
@@ -50,11 +52,11 @@ public class Food extends AbstractEntity {
 	
 	@NotNull
 	@Column(name = "price")
-	public double getPrice() {
+	public BigDecimal getPrice() {
 		return this.price;
 	}
 	
-	public void setPrice(double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 	
